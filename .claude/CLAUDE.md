@@ -96,6 +96,83 @@ npm run format
 - テストは `npm run test` で実行可能であること
 - 新機能追加時はテストも同時に追加する
 
+## テストコード生成ルール
+
+### 環境
+
+- **言語**: TypeScript
+- **テストフレームワーク**: Vitest
+
+### 必須要件
+
+テストコードを生成する際は、以下の手順と要件を **必ず** 守ること。
+
+#### 手順 1: テスト観点表の作成
+
+実装の前に、**等価分割・境界値分析に基づくテスト観点表**を Markdown 表で作成する。
+
+```markdown
+| # | 観点 | 分類 | 入力例 | 期待結果 |
+|---|------|------|--------|----------|
+| 1 | 正常な KEY=value | 正常系 | `"DB_HOST=localhost"` | `{ key: "DB_HOST", value: "localhost" }` |
+| 2 | 空の入力 | 境界値 | `""` | `[]` |
+| ...| ... | ... | ... | ... |
+```
+
+#### 手順 2: テストケースの網羅
+
+テスト観点表に基づき、以下のカテゴリを **すべて** 網羅する。
+
+1. **正常系** — 主要なシナリオ（代表値による等価分割）
+2. **異常系** — バリデーションエラー、例外（失敗系は正常系と **同数以上** 含める）
+3. **境界値** — `0`, 最小値, 最大値, `±1`, 空文字列, `null`, `undefined`
+4. **不正な型・形式** — 想定外の型、不正なフォーマットの入力
+5. **外部依存の失敗** — ファイル読み込みエラー等（該当する場合）
+6. **例外種別・エラーメッセージの検証** — throw される例外の型とメッセージを `toThrow` で検証
+
+#### 手順 3: テストコードのフォーマット
+
+各テストケースに **Given / When / Then** 形式のコメントを付ける。
+
+```typescript
+it('should parse KEY=value format', () => {
+  // Given: 標準的な KEY=value 形式の文字列
+  const input = 'DATABASE_URL=postgres://localhost:5432/db';
+
+  // When: パース処理を実行
+  const result = parseEnvFile(input);
+
+  // Then: キーと値が正しく抽出される
+  expect(result).toHaveLength(1);
+  expect(result[0]?.key).toBe('DATABASE_URL');
+  expect(result[0]?.value).toBe('postgres://localhost:5432/db');
+});
+```
+
+#### 手順 4: 不足観点の自己追加
+
+上記カテゴリで不足している観点があれば、自ら追加してからテストコードを実装する。
+
+#### 手順 5: 実行方法の記載
+
+テストファイル末尾にコメントとして以下を記載する。
+
+```typescript
+/**
+ * 実行コマンド:
+ *   npm run test                    # 全テスト実行
+ *   npx vitest run src/test/<file>  # 単一ファイル実行
+ *
+ * カバレッジ取得:
+ *   npx vitest run --coverage
+ */
+```
+
+### 目標
+
+- **分岐網羅 (Branch Coverage): 100%**
+- 失敗系テストケース数 >= 正常系テストケース数
+
 ## Git ルール
 
 - ブランチ: `claude/env-variable-checker-dbQ8i` で開発
