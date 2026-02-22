@@ -1,0 +1,15 @@
+src/
+node_modules/
+.claude/
+docs/
+.git/
+.gitignore
+*.ts
+!dist/**
+tsconfig.json
+eslint.config.mjs
+.prettierrc
+vitest.config.ts
+esbuild.mjs
+coverage/
+.vscode-test/

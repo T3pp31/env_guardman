@@ -1,0 +1,91 @@
+{
+  "name": "env-guardman",
+  "displayName": "Env Guardman",
+  "description": "Auto-detect differences between .env.example and .env, notify missing variables, and help add them interactively.",
+  "version": "0.1.0",
+  "publisher": "env-guardman",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "workspaceContains:**/.env.example"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "envGuardman.check",
+        "title": "Env Guardman: Check Missing Variables"
+      },
+      {
+        "command": "envGuardman.addMissing",
+        "title": "Env Guardman: Add Missing Variables"
+      }
+    ],
+    "configuration": {
+      "title": "Env Guardman",
+      "properties": {
+        "envGuardman.templateFile": {
+          "type": "string",
+          "default": ".env.example",
+          "description": "Path to the template env file (relative to workspace root)"
+        },
+        "envGuardman.envFile": {
+          "type": "string",
+          "default": ".env",
+          "description": "Path to the actual env file (relative to workspace root)"
+        },
+        "envGuardman.ignorePatterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Regex patterns for variable names to ignore"
+        },
+        "envGuardman.checkOnOpen": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run check when workspace is opened"
+        },
+        "envGuardman.checkOnBranchSwitch": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run check when Git branch is switched"
+        },
+        "envGuardman.checkOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run check when .env or .env.example is saved"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build -- --production",
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src/",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^25.3.0",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.5.0",
+    "typescript-eslint": "^8.0.0",
+    "vitest": "^2.0.0"
+  }
+}
