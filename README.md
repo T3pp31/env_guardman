@@ -17,28 +17,6 @@
 - **コマンドパレット** — 手動でチェック実行・不足変数の追加が可能
 - **完全ローカル** — ネットワーク通信は一切行わず、秘匿情報は安全
 
-## インストール
-
-VS Code Marketplace から直接インストールできます:
-
-1. VS Code を開く
-2. 拡張機能パネル (`Ctrl+Shift+X` / `Cmd+Shift+X`) を開く
-3. `Env Guardman` で検索
-4. **Install** をクリック
-
-または [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=env-guardman.env-guardman) から直接インストール。
-
-### 開発版として利用する場合
-
-```bash
-git clone https://github.com/T3pp31/env_guardman
-cd env_guardman
-npm install
-npm run build
-```
-
-VS Code で `F5` を押して Extension Development Host を起動してください。
-
 ## 使い方
 
 1. `.env.example` を含むプロジェクトを VS Code で開く
@@ -54,6 +32,8 @@ VS Code で `F5` を押して Extension Development Host を起動してくだ�
 | `Env Guardman: Add Missing Variables` | 不足変数の入力ウィザードを起動 |
 
 ## 設定
+
+VS Code の設定 (`settings.json`) で以下のオプションをカスタマイズできます。
 
 | 設定キー | 型 | デフォルト | 説明 |
 |----------|-----|-----------|------|
@@ -75,50 +55,6 @@ VS Code で `F5` を押して Extension Development Host を起動してくだ�
 }
 ```
 
-## リリース
-
-`v*` タグをプッシュすると GitHub Actions が自動で Marketplace に公開します。
-
-### 事前準備（初回のみ）
-
-1. [Azure DevOps](https://dev.azure.com) で Personal Access Token (PAT) を発行
-   - Scopes: **Marketplace → Manage**
-2. GitHub リポジトリの **Settings → Secrets and variables → Actions** で `VSCE_PAT` を登録
-
-### バージョンアップ & 公開
-
-```bash
-npm version patch          # 0.1.0 → 0.1.1（patch / minor / major を指定）
-git push origin master --tags
-```
-
-タグのプッシュをトリガーに typecheck → lint → test → `vsce publish` が自動実行されます。
-
-## 開発
-
-```bash
-# 依存インストール
-npm install
-
-# ビルド
-npm run build
-
-# 開発ビルド (watch)
-npm run watch
-
-# テスト
-npm run test
-
-# リント
-npm run lint
-
-# フォーマット
-npm run format
-
-# 型チェック
-npm run typecheck
-```
-
 ## 対応する .env フォーマット
 
 ```bash
@@ -132,13 +68,17 @@ INLINE_COMMENT=value # コメントは除去される
 URL=postgres://host:5432/db?opt=1  # 値の中の = は保持される
 ```
 
-## 技術スタック
+## プライバシーとセキュリティ
 
-- TypeScript (strict mode)
-- VS Code Extension API
-- esbuild
-- Vitest
-- ESLint + Prettier
+- ネットワーク通信は一切行いません
+- `.env` の値はログやテレメトリに含まれません
+- すべての処理は VS Code 内でローカルに完結します
+
+## コントリビュート
+
+バグ報告や機能提案は [GitHub Issues](https://github.com/T3pp31/env_guardman/issues) へお願いします。
+
+開発に参加する場合は [CONTRIBUTING.md](https://github.com/T3pp31/env_guardman/blob/master/CONTRIBUTING.md) を参照してください。
 
 ## ライセンス
 
