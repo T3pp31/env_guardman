@@ -19,12 +19,19 @@
 
 ## インストール
 
-> VS Code Marketplace への公開は準備中です。
+VS Code Marketplace から直接インストールできます:
 
-開発版として利用する場合:
+1. VS Code を開く
+2. 拡張機能パネル (`Ctrl+Shift+X` / `Cmd+Shift+X`) を開く
+3. `Env Guardman` で検索
+4. **Install** をクリック
+
+または [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=env-guardman.env-guardman) から直接インストール。
+
+### 開発版として利用する場合
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/T3pp31/env_guardman
 cd env_guardman
 npm install
 npm run build
