@@ -5,11 +5,30 @@
   "version": "0.1.0",
   "publisher": "env-guardman",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/T3pp31/env_guardman"
+  },
+  "bugs": {
+    "url": "https://github.com/T3pp31/env_guardman/issues"
+  },
+  "homepage": "https://github.com/T3pp31/env_guardman#readme",
+  "keywords": [
+    "env",
+    "dotenv",
+    ".env",
+    "environment",
+    "variables",
+    "checker",
+    "diff",
+    "security"
+  ],
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Linters"
   ],
   "main": "./dist/extension.js",
   "activationEvents": [
