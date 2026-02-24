@@ -48,13 +48,7 @@ npm run typecheck
 
 ## リリース
 
-`v*` タグをプッシュすると GitHub Actions が自動で Marketplace に公開します。
-
-### 事前準備（初回のみ）
-
-1. [Azure DevOps](https://dev.azure.com) で Personal Access Token (PAT) を発行
-   - Scopes: **Marketplace → Manage**
-2. GitHub リポジトリの **Settings → Secrets and variables → Actions** で `VSCE_PAT` を登録
+`v*` タグをプッシュすると GitHub Actions が自動で `.vsix` をビルドし、GitHub Release に添付します。
 
 ### バージョンアップ & 公開
 
@@ -63,4 +57,11 @@ npm version patch          # 0.1.0 → 0.1.1（patch / minor / major を指定�
 git push origin master --tags
 ```
 
-タグのプッシュをトリガーに typecheck → lint → test → `vsce publish` が自動実行されます。
+タグのプッシュをトリガーに typecheck → lint → test → `vsce package` が実行され、`.vsix` ファイルが GitHub Release にアップロードされます。
+
+### Marketplace への公開
+
+1. GitHub Release ページから `.vsix` ファイルをダウンロード
+2. https://marketplace.visualstudio.com/manage を開く
+3. Publisher `env-guardman` を選択
+4. 「Update」→ `.vsix` ファイルをアップロード

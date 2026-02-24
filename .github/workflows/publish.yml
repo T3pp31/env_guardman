@@ -1,12 +1,15 @@
-name: Publish to VS Code Marketplace
+name: Build .vsix & Create Release
 
 on:
   push:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +33,11 @@ jobs:
       - name: Test
         run: npm run test
 
-      - name: Publish to Marketplace
-        run: npx @vscode/vsce publish --no-git-tag-version
-        env:
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+      - name: Package .vsix
+        run: npx @vscode/vsce package --no-git-tag-version
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: '*.vsix'
+          generate_release_notes: true
