@@ -46,3 +46,8 @@ jobs:
         with:
           files: '*.vsix'
           generate_release_notes: true
+          append_body: true
+          body: |
+            ## Install
+
+            **VS Code Marketplace**: https://marketplace.visualstudio.com/items?itemName=env-guardman.env-guardman
