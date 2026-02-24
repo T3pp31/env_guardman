@@ -48,6 +48,7 @@ jobs:
           generate_release_notes: true
           append_body: true
           body: |
-            ## Install
+            ## Links
 
-            **VS Code Marketplace**: https://marketplace.visualstudio.com/items?itemName=env-guardman.env-guardman
+            - **VS Code Marketplace**: https://marketplace.visualstudio.com/items?itemName=env-guardman.env-guardman
+            - **Publish (upload .vsix)**: https://marketplace.visualstudio.com/manage/publishers/env-guardman/extensions/env-guardman/hub
