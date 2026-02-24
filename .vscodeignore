@@ -13,3 +13,4 @@ vitest.config.ts
 esbuild.mjs
 coverage/
 .vscode-test/
+CONTRIBUTING.md
