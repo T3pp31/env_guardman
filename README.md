@@ -1,85 +1,85 @@
 # Env Guardman
 
-`.env.example` と `.env` の差分を自動検出し、不足する環境変数をユーザーに通知・入力補助する VS Code 拡張機能。
+A VS Code extension that automatically detects differences between `.env.example` and `.env`, notifying you of missing environment variables and helping you add them interactively.
 
-すべての処理はローカルで完結し、秘匿情報を外部に送信しません。
+Everything runs locally — no secrets are ever sent over the network.
 
-## 解決する課題
+## The Problem
 
-チーム開発で誰かが `.env.example` に新しい環境変数を追加したのに気づかず、手元のローカル環境でアプリを起動して謎のエラーで時間を溶かす「あるある」を防ぎます。
+In team development, someone adds a new variable to `.env.example`, you pull the latest code, and your app breaks with a cryptic error — all because you didn't notice the missing env var. Env Guardman prevents this.
 
-## 機能
+## Features
 
-- **自動差分チェック** — ワークスペース起動時、ブランチ切り替え時、ファイル保存時に `.env.example` と `.env` を自動比較
-- **警告通知** — 不足変数がある場合、右下に警告ポップアップを表示
-- **対話的入力** — 「今すぐ値を入力する」ボタンから、不足変数を1つずつ InputBox で入力し `.env` に追記
-- **ステータスバー** — `.env OK` / `.env: N missing` を常時表示
-- **コマンドパレット** — 手動でチェック実行・不足変数の追加が可能
-- **完全ローカル** — ネットワーク通信は一切行わず、秘匿情報は安全
+- **Auto Diff Check** — Automatically compares `.env.example` and `.env` when the workspace opens, a Git branch is switched, or a file is saved
+- **Warning Notification** — Shows a warning popup when missing variables are detected
+- **Interactive Input** — Click "Add Now" to fill in missing variables one by one via InputBox and append them to `.env`
+- **Status Bar** — Always shows `.env OK` or `.env: N missing` at a glance
+- **Command Palette** — Manually run checks or add missing variables anytime
+- **Fully Local** — Zero network requests, your secrets stay safe
 
-## 使い方
+## Usage
 
-1. `.env.example` を含むプロジェクトを VS Code で開く
-2. 自動で差分チェックが実行される
-3. 不足変数があれば警告通知が表示される
-4. 「Add Now」をクリックして値を入力
+1. Open a project containing `.env.example` in VS Code
+2. The diff check runs automatically
+3. If any variables are missing, a warning notification appears
+4. Click "Add Now" to enter the values
 
-### コマンド
+### Commands
 
-| コマンド | 説明 |
-|----------|------|
-| `Env Guardman: Check Missing Variables` | 手動で差分チェックを実行 |
-| `Env Guardman: Add Missing Variables` | 不足変数の入力ウィザードを起動 |
+| Command | Description |
+|---------|-------------|
+| `Env Guardman: Check Missing Variables` | Manually run a diff check |
+| `Env Guardman: Add Missing Variables` | Launch the input wizard for missing variables |
 
-## 設定
+## Settings
 
-VS Code の設定 (`settings.json`) で以下のオプションをカスタマイズできます。
+Customize the behavior in VS Code settings (`settings.json`).
 
-| 設定キー | 型 | デフォルト | 説明 |
-|----------|-----|-----------|------|
-| `envGuardman.templateFile` | `string` | `.env.example` | テンプレートファイルのパス (ワークスペースルートからの相対パス) |
-| `envGuardman.envFile` | `string` | `.env` | チェック対象の .env ファイルパス |
-| `envGuardman.ignorePatterns` | `string[]` | `[]` | 無視する変数名の正規表現パターン |
-| `envGuardman.checkOnOpen` | `boolean` | `true` | ワークスペース起動時の自動チェック |
-| `envGuardman.checkOnBranchSwitch` | `boolean` | `true` | ブランチ切り替え時の自動チェック |
-| `envGuardman.checkOnSave` | `boolean` | `true` | ファイル保存時の自動チェック |
+| Setting | Type | Default | Description |
+|---------|------|---------|-------------|
+| `envGuardman.templateFile` | `string` | `.env.example` | Path to the template env file (relative to workspace root) |
+| `envGuardman.envFile` | `string` | `.env` | Path to the actual env file (relative to workspace root) |
+| `envGuardman.ignorePatterns` | `string[]` | `[]` | Regex patterns for variable names to ignore |
+| `envGuardman.checkOnOpen` | `boolean` | `true` | Run check when the workspace is opened |
+| `envGuardman.checkOnBranchSwitch` | `boolean` | `true` | Run check when a Git branch is switched |
+| `envGuardman.checkOnSave` | `boolean` | `true` | Run check when `.env` or `.env.example` is saved |
 
-### 設定例
+### Example
 
 ```jsonc
 {
-  // OPTIONAL_ で始まる変数を無視
+  // Ignore variables starting with OPTIONAL_
   "envGuardman.ignorePatterns": ["^OPTIONAL_"],
-  // ブランチ切り替え時のチェックを無効化
+  // Disable check on branch switch
   "envGuardman.checkOnBranchSwitch": false
 }
 ```
 
-## 対応する .env フォーマット
+## Supported .env Format
 
 ```bash
-# コメント行 (無視される)
+# Comment lines (ignored)
 KEY=value
 EMPTY_KEY=
 KEY_ONLY
 QUOTED="hello world"
 SINGLE_QUOTED='hello world'
-INLINE_COMMENT=value # コメントは除去される
-URL=postgres://host:5432/db?opt=1  # 値の中の = は保持される
+INLINE_COMMENT=value # inline comments are stripped
+URL=postgres://host:5432/db?opt=1  # = inside values is preserved
 ```
 
-## プライバシーとセキュリティ
+## Privacy & Security
 
-- ネットワーク通信は一切行いません
-- `.env` の値はログやテレメトリに含まれません
-- すべての処理は VS Code 内でローカルに完結します
+- Makes zero network requests
+- `.env` values are never included in logs or telemetry
+- All processing happens locally within VS Code
 
-## コントリビュート
+## Contributing
 
-バグ報告や機能提案は [GitHub Issues](https://github.com/T3pp31/env_guardman/issues) へお願いします。
+Bug reports and feature requests are welcome on [GitHub Issues](https://github.com/T3pp31/env_guardman/issues).
 
-開発に参加する場合は [CONTRIBUTING.md](https://github.com/T3pp31/env_guardman/blob/master/CONTRIBUTING.md) を参照してください。
+To contribute code, see [CONTRIBUTING.md](https://github.com/T3pp31/env_guardman/blob/master/CONTRIBUTING.md).
 
-## ライセンス
+## License
 
 MIT
