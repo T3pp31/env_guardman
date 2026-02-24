@@ -2,7 +2,7 @@
   "name": "env-guardman",
   "displayName": "Env Guardman",
   "description": "Auto-detect differences between .env.example and .env, notify missing variables, and help add them interactively.",
-  "version": "0.1.0",
+  "version": "1.0.2",
   "publisher": "env-guardman",
   "license": "MIT",
   "repository": {
